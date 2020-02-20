@@ -10,9 +10,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.engine('html', require('ejs').renderFile);
 
 app.use(express.static(path.join(__dirname,'public')));
-// app.use('/static',express.static('monDossier'));
 
-app.get('/', (req, res) => res.render('index.html'));
+// app.use('/static',express.static('monDossier'));
+app.set('views' , path.join(__dirname, 'views'));
+app.set('view engine' , 'pug');
+app.get('/', (req, res) => res.render('index'));
+app.get('/inscription', (req, res) => res.render('inscription'));
+
 
 mongoose.connect('mongodb://localhost:27017/test',{useNewUrlParser:true});
 let db = mongoose.connection;
@@ -23,4 +27,5 @@ db.once('open', function() {
 });
 (require('./routes'))(app)
 
-app.listen(port, () => console.log(`Example app listening on port!`));
+app.listen(port, () => {console.log(`Example app listening on port!`)
+console.log(path.join(__dirname,'public'))});
